@@ -1,0 +1,1077 @@
+/* ============================================================
+   styles.css — Hoja de estilos principal de SoyMr Playlists
+   Diseño: oscuro, moderno, minimalista, musical, elegante.
+   ============================================================ */
+
+/* ---------- VARIABLES GLOBALES (fáciles de modificar) ---------- */
+:root {
+    /* Paleta de colores */
+    --color-bg-primary: #0a0a0f;        /* Fondo principal, casi negro */
+    --color-bg-secondary: #111118;      /* Fondo secundario / tarjetas */
+    --color-bg-tertiary: #1a1a24;      /* Fondo elevado / bordes */
+    --color-surface: rgba(255, 255, 255, 0.04);  /* Superficie glassmorphism */
+    --color-surface-hover: rgba(255, 255, 255, 0.07);
+
+    --color-text-primary: #f5f5f7;      /* Blanco suave */
+    --color-text-secondary: #a1a1aa;    /* Gris medio */
+    --color-text-muted: #6b6b76;        /* Gris apagado */
+
+    --color-accent: #1ed760;            /* Verde principal (inspirado en Spotify) */
+    --color-accent-soft: rgba(30, 215, 96, 0.12);  /* Verde translúcido */
+    --color-accent-glow: rgba(30, 215, 96, 0.3);   /* Glow verde */
+    --color-accent-border: rgba(30, 215, 96, 0.25);
+
+    --color-discord: #5865F2;           /* Azul Discord */
+    --color-discord-soft: rgba(88, 101, 242, 0.15);
+
+    /* Tipografía */
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+    /* Tamaños y sombras */
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+    --radius-xl: 32px;
+    --radius-full: 9999px;
+
+    --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.35);
+    --shadow-card-hover: 0 16px 50px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 40px var(--color-accent-glow);
+
+    --transition-fast: 0.2s ease;
+    --transition-base: 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-slow: 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    /* Navbar */
+    --navbar-height: 72px;
+    --navbar-bg-scrolled: rgba(10, 10, 15, 0.88);
+    --navbar-border: rgba(255, 255, 255, 0.06);
+}
+
+/* ---------- RESET BÁSICO ---------- */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--navbar-height);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: color var(--transition-fast);
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-family: inherit;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+/* ---------- UTILIDADES ---------- */
+.section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ---------- NAVBAR ---------- */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--navbar-height);
+    z-index: 1000;
+    transition: background-color var(--transition-base),
+    backdrop-filter var(--transition-base),
+    border-bottom var(--transition-base);
+    background-color: transparent;
+    border-bottom: 1px solid transparent;
+}
+
+/* Estado al hacer scroll: blur + fondo translúcido */
+.navbar.scrolled {
+    background-color: var(--navbar-bg-scrolled);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid var(--navbar-border);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.nav-logo {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--color-text-primary);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--color-accent);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--color-accent-glow);
+    animation: pulseDot 2s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.3);
+        opacity: 0.7;
+    }
+}
+
+.logo-accent {
+    color: var(--color-accent);
+}
+
+/* Menú de navegación */
+.nav-menu {
+    display: flex;
+    align-items: center;
+}
+
+.nav-list {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-link {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    border-radius: var(--radius-full);
+    transition: all var(--transition-fast);
+    position: relative;
+}
+
+.nav-link:hover {
+    color: var(--color-text-primary);
+    background: var(--color-surface);
+}
+
+.nav-link.active {
+    color: var(--color-accent);
+    background: var(--color-accent-soft);
+}
+
+/* Botón hamburguesa (oculto en escritorio) */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    transition: background var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.hamburger:hover {
+    background: var(--color-surface-hover);
+}
+
+.hamburger .bar {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background-color: var(--color-text-primary);
+    border-radius: 2px;
+    transition: transform var(--transition-base), opacity var(--transition-base);
+}
+
+/* Animación hamburguesa → X */
+.hamburger.active .bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active .bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ---------- HERO / INICIO ---------- */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: calc(var(--navbar-height) + 40px) 0 40px;
+}
+
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.hero-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+}
+
+.hero-glow-1 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(30, 215, 96, 0.25), transparent 70%);
+    top: -10%;
+    right: -5%;
+    animation: pulseGlow 6s ease-in-out infinite alternate;
+}
+
+.hero-glow-2 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(88, 101, 242, 0.2), transparent 70%);
+    bottom: -15%;
+    left: -10%;
+    animation: pulseGlow 8s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes pulseGlow {
+    0% {
+        opacity: 0.25;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0.45;
+        transform: scale(1.15);
+    }
+}
+
+/* Partículas decorativas sutiles */
+.hero-particles {
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.5;
+}
+
+.hero-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+}
+
+.hero-content {
+    flex: 1;
+    max-width: 600px;
+}
+
+.hero-eyebrow {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.eyebrow-line {
+    display: inline-block;
+    width: 24px;
+    height: 2px;
+    background: var(--color-accent);
+    border-radius: 2px;
+}
+
+.hero-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
+    color: var(--color-text-primary);
+}
+
+.hero-title-accent {
+    background: linear-gradient(135deg, var(--color-accent), #7CF5A6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-description {
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    max-width: 480px;
+    margin-bottom: 32px;
+    line-height: 1.7;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+/* Botones generales */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    letter-spacing: 0.2px;
+}
+
+.btn-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.btn-primary {
+    background: var(--color-accent);
+    color: #0a0a0f;
+    box-shadow: 0 4px 20px rgba(30, 215, 96, 0.3);
+}
+
+.btn-primary:hover {
+    background: #23e868;
+    box-shadow: 0 8px 30px rgba(30, 215, 96, 0.45);
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--color-text-primary);
+    border: 1.5px solid var(--color-text-muted);
+}
+
+.btn-outline:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    transform: translateY(-2px);
+}
+
+/* Botón específico de Spotify */
+.btn-spotify {
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+    border: 1.5px solid var(--color-accent-border);
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    width: 100%;
+    justify-content: center;
+    margin-top: auto;
+}
+
+.btn-spotify:hover {
+    background: var(--color-accent);
+    color: #0a0a0f;
+    box-shadow: 0 6px 25px rgba(30, 215, 96, 0.35);
+    transform: translateY(-2px);
+    border-color: var(--color-accent);
+}
+
+/* Botón Discord */
+.btn-discord {
+    background: var(--color-discord);
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(88, 101, 242, 0.3);
+    font-size: 1.05rem;
+    padding: 14px 30px;
+}
+
+.btn-discord:hover {
+    background: #4752C4;
+    box-shadow: 0 8px 30px rgba(88, 101, 242, 0.45);
+    transform: translateY(-2px);
+}
+
+/* Imagen de perfil en hero */
+.hero-image-wrapper {
+    flex-shrink: 0;
+    position: relative;
+    width: 280px;
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-image-ring {
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+    border: 2px solid var(--color-accent-border);
+    animation: rotateRing 20s linear infinite;
+    pointer-events: none;
+}
+
+.hero-image-ring::before,
+.hero-image-ring::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+}
+
+.hero-image-ring::before {
+    inset: 8px;
+    border: 1px dashed rgba(30, 215, 96, 0.4);
+    animation: rotateRing 30s linear infinite reverse;
+}
+
+.hero-image-ring::after {
+    inset: -6px;
+    border: 1px solid rgba(30, 215, 96, 0.15);
+    animation: rotateRing 15s linear infinite;
+}
+
+@keyframes rotateRing {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.hero-image-glow {
+    position: absolute;
+    inset: -20px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(30, 215, 96, 0.2), transparent 70%);
+    filter: blur(20px);
+    animation: glowPulse 3s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes glowPulse {
+    0% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.hero-profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 60px rgba(30, 215, 96, 0.2), 0 20px 50px rgba(0, 0, 0, 0.5);
+    animation: floatImage 5s ease-in-out infinite alternate;
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes floatImage {
+    0% {
+        transform: translateY(0) scale(1);
+        box-shadow: 0 0 50px rgba(30, 215, 96, 0.2), 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+    100% {
+        transform: translateY(-12px) scale(1.02);
+        box-shadow: 0 0 80px rgba(30, 215, 96, 0.35), 0 30px 60px rgba(0, 0, 0, 0.6);
+    }
+}
+
+/* Indicador de scroll */
+.scroll-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    color: var(--color-text-muted);
+    animation: bounceDown 2s ease-in-out infinite;
+    transition: color var(--transition-fast);
+}
+
+.scroll-indicator:hover {
+    color: var(--color-accent);
+}
+
+.scroll-icon {
+    width: 28px;
+    height: 28px;
+}
+
+@keyframes bounceDown {
+    0%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(10px);
+    }
+}
+
+/* ---------- SECCIÓN PLAYLISTS ---------- */
+.playlists-section {
+    padding: 100px 0 80px;
+    position: relative;
+    background: linear-gradient(180deg, var(--color-bg-primary) 0%, var(--color-bg-secondary) 100%);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-eyebrow {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--color-accent);
+    margin-bottom: 12px;
+}
+
+.section-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -1.5px;
+    margin-bottom: 12px;
+    color: var(--color-text-primary);
+}
+
+.section-subtitle {
+    font-size: 1.05rem;
+    color: var(--color-text-secondary);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+/* Grid de playlists (sin filtros, 3 columnas en escritorio) */
+.playlists-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 32px;
+    perspective: 1000px;
+}
+
+/* Tarjeta individual */
+.playlist-card {
+    background: var(--color-bg-tertiary);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-card);
+    display: flex;
+    flex-direction: column;
+    animation: fadeInUp 0.6s ease forwards;
+    opacity: 0;
+    transform: translateY(30px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Animación de aparición con retardo para cada tarjeta */
+.playlist-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+.playlist-card:nth-child(2) {
+    animation-delay: 0.25s;
+}
+.playlist-card:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hover elegante de la tarjeta */
+.playlist-card:hover {
+    transform: translateY(-10px) scale(1.01);
+    box-shadow: var(--shadow-card-hover), var(--shadow-glow);
+    border-color: var(--color-accent-border);
+    background: var(--color-bg-tertiary);
+}
+
+/* Portada de la tarjeta */
+.card-cover {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--color-bg-secondary);
+}
+
+.card-cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.playlist-card:hover .card-cover-img {
+    transform: scale(1.06);
+}
+
+.card-cover-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(10, 10, 15, 0.1) 0%, rgba(10, 10, 15, 0.6) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity var(--transition-base);
+}
+
+.playlist-card:hover .card-cover-overlay {
+    opacity: 1;
+}
+
+.overlay-play-icon {
+    width: 56px;
+    height: 56px;
+    color: #fff;
+    background: rgba(30, 215, 96, 0.85);
+    border-radius: 50%;
+    padding: 12px;
+    box-shadow: 0 8px 30px rgba(30, 215, 96, 0.5);
+    transition: transform var(--transition-fast);
+}
+
+.playlist-card:hover .overlay-play-icon {
+    transform: scale(1.1);
+}
+
+/* Cuerpo de la tarjeta */
+.card-body {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+}
+
+.card-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.card-title {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+.card-title:hover {
+    color: var(--color-accent);
+}
+
+.card-description {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    flex: 1;
+}
+
+/* ---------- SECCIÓN DISCORD ---------- */
+.discord-section {
+    padding: 80px 0 100px;
+    background: var(--color-bg-primary);
+    position: relative;
+}
+
+.discord-card {
+    max-width: 600px;
+    margin: 0 auto;
+    background: var(--color-bg-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-xl);
+    padding: 48px 40px;
+    text-align: center;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-card);
+    position: relative;
+    overflow: hidden;
+}
+
+.discord-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(88, 101, 242, 0.12), transparent 70%);
+    pointer-events: none;
+    border-radius: 50%;
+}
+
+.discord-card:hover {
+    border-color: rgba(88, 101, 242, 0.3);
+    box-shadow: var(--shadow-card-hover), 0 0 50px rgba(88, 101, 242, 0.15);
+    transform: translateY(-4px);
+}
+
+.discord-logo-wrapper {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--color-discord);
+    box-shadow: 0 0 30px rgba(88, 101, 242, 0.3);
+    position: relative;
+    z-index: 1;
+}
+
+.discord-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.discord-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 8px;
+    background: var(--color-discord-soft);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(88, 101, 242, 0.3);
+}
+
+.discord-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--color-discord);
+}
+
+.discord-title {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin-bottom: 4px;
+    color: var(--color-text-primary);
+}
+
+.discord-server-name {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+}
+
+.discord-description {
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 28px;
+    line-height: 1.7;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ---------- FOOTER ---------- */
+.footer {
+    padding: 32px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    background: var(--color-bg-primary);
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.footer-text {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+}
+
+.footer-social {
+    display: flex;
+    gap: 12px;
+    /* Espacio reservado para futuros enlaces */
+    min-height: 20px;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+/* Tablets grandes */
+@media (max-width: 1024px) {
+    .hero-container {
+        gap: 32px;
+    }
+
+    .hero-image-wrapper {
+        width: 220px;
+        height: 220px;
+    }
+
+    .playlists-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+    }
+}
+
+/* Tablets y móviles medianos */
+@media (max-width: 768px) {
+    /* Navbar → hamburguesa */
+    .hamburger {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: var(--navbar-height);
+        left: 0;
+        right: 0;
+        background: var(--navbar-bg-scrolled);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        border-bottom: 1px solid var(--navbar-border);
+        padding: 16px 24px;
+        transform: translateY(-120%);
+        opacity: 0;
+        transition: transform var(--transition-base), opacity var(--transition-base);
+        z-index: 999;
+    }
+
+    .nav-menu.open {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .nav-list {
+        flex-direction: column;
+        gap: 4px;
+        width: 100%;
+    }
+
+    .nav-link {
+        display: block;
+        padding: 14px 20px;
+        font-size: 1rem;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Hero */
+    .hero {
+        padding: calc(var(--navbar-height) + 30px) 0 30px;
+    }
+
+    .hero-container {
+        flex-direction: column-reverse;
+        text-align: center;
+        gap: 32px;
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-actions {
+        justify-content: center;
+    }
+
+    .hero-image-wrapper {
+        width: 200px;
+        height: 200px;
+    }
+
+    .scroll-indicator {
+        bottom: 16px;
+    }
+
+    /* Playlists */
+    .playlists-section {
+        padding: 60px 0 50px;
+    }
+
+    .playlists-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        max-width: 480px;
+        margin: 0 auto;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+    }
+
+    /* Discord */
+    .discord-section {
+        padding: 50px 0 70px;
+    }
+
+    .discord-card {
+        padding: 36px 24px;
+        border-radius: var(--radius-lg);
+    }
+
+    .discord-server-name {
+        font-size: 2rem;
+    }
+}
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+    .section-container {
+        padding: 0 16px;
+    }
+
+    .hero-container {
+        padding: 0 16px;
+    }
+
+    .hero-title {
+        font-size: 2.2rem;
+    }
+
+    .hero-image-wrapper {
+        width: 170px;
+        height: 170px;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .playlists-grid {
+        max-width: 100%;
+    }
+
+    .card-body {
+        padding: 18px;
+    }
+
+    .discord-card {
+        padding: 28px 18px;
+    }
+
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+/* Móviles muy pequeños */
+@media (max-width: 350px) {
+    .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .hero-image-wrapper {
+        width: 140px;
+        height: 140px;
+    }
+}
